@@ -1,5 +1,5 @@
 # Windows client for GigaChat
 Written in C# with .NET framework
 
-#Installation
+# Installation
 nothing here yet...
