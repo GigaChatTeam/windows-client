@@ -9,6 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Web.UI.WebControls;
 
 namespace GigaChat
 {
@@ -82,42 +85,44 @@ namespace GigaChat
         {
             string LOGIN = loginBoxReg.Text;
             string PASSWORD = passwordBoxReg.Text;
-            if (LOGIN == "zodiac_cctv" && PASSWORD == "5656243")
+            string token = GetToken(LOGIN, PASSWORD);
+            if (token != null)
             {
+                MessageBox.Show("Token: " + token);
                 BaseForm baseForm = new BaseForm();
                 this.Hide();
                 baseForm.Show();
             }
-            else
-            {
-                MessageBox.Show("неправильный логин или пароль");
-            }
-            //await HTTP();
         }
-        /*private static async Task HTTP()
+
+        public string GetToken(string login, string password)
         {
-            // Создаем экземпляр HttpClient
-            using (var client = new HttpClient())
+            // Формирование URL-адреса запроса
+            string url = $"https://example.com?login={login}&password={password}";
+
+            try
             {
-                try
-                {
-                    // Отправляем GET-запрос к указанному URL
-                    HttpResponseMessage response = await client.GetAsync("https://google.com");
+                // Создание объекта WebClient для выполнения HTTP-запроса
+                WebClient client = new WebClient();
 
-                    // Убедимся, что запрос успешен (код 200)
-                    response.EnsureSuccessStatusCode();
+                // Установка заголовка User-Agent для обхода блокировок
+                client.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
 
-                    // Читаем содержимое ответа
-                    string responseBody = await response.Content.ReadAsStringAsync();
+                // Выполнение HTTP-запроса и получение ответа в виде строки
+                string response = client.DownloadString(url);
 
-                    // Выводим содержимое ответа
-                    MessageBox.Show(responseBody);
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show($"Ошибка при выполнении запроса: {e.Message}");
-                }
+                // Обработка полученного ответа и извлечение токена
+                string token = response.Split(':')[1].Replace("\"", "").Trim();
+
+                return token;
             }
-        }*/
+            catch (Exception ex)
+            {
+                // Обработка ошибок при выполнении запроса
+                Console.WriteLine(ex.Message);
+                MessageBox.Show("Error occurred while getting token");
+                return null;
+            }
+        }
     }
 }

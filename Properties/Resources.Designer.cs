@@ -73,9 +73,29 @@ namespace GigaChat.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap loginBN1 {
+            get {
+                object obj = ResourceManager.GetObject("loginBN1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap RegisterBG {
             get {
                 object obj = ResourceManager.GetObject("RegisterBG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RegisterBG1 {
+            get {
+                object obj = ResourceManager.GetObject("RegisterBG1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
