@@ -12,6 +12,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Web.UI.WebControls;
+using Newtonsoft.Json;
+using System.Web.Services.Description;
+using ServiceStack;
+using Fizzler;
+using ServiceStack.Script;
 
 namespace GigaChat
 {
@@ -83,46 +88,95 @@ namespace GigaChat
         //мозготрах тут:
         private void LOGINbuttonReg_Click(object sender, EventArgs e)
         {
-            string LOGIN = loginBoxReg.Text;
-            string PASSWORD = passwordBoxReg.Text;
-            string token = GetToken(LOGIN, PASSWORD);
-            if (token != null)
+            /*LoadingForm loadingForm = new LoadingForm(1,"soUseless");
+            this.Hide();
+            loadingForm.Show();*/
+            try
             {
-                MessageBox.Show("Token: " + token);
-                BaseForm baseForm = new BaseForm();
-                this.Hide();
-                baseForm.Show();
+                string LOGIN = loginBoxReg.Text;
+                string PASSWORD = passwordBoxReg.Text;
+                if (validateLP(LOGIN, PASSWORD))
+                {
+                    string response = GetToken(LOGIN, PASSWORD);
+                    if (response != null)
+                    {
+                        MessageBox.Show(response);
+                        AuthPacket data = JsonConvert.DeserializeObject<AuthPacket>(response);
+
+                        LoadingForm loadingForm = new LoadingForm(1, data.auth_data.token, data.auth_data.id);
+                        this.Hide();
+                        loadingForm.Show();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("недопустимый логин или пароль, \nвозможно одно из полей не заполнено\nтакже возможно ваш пароль содержит не только символы кириллицы или латиницы,а также символы !@#$%^&*");
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"при входе возникла непредвиденная ошибка:\n"+ ex.Message);
             }
         }
+        
+        public bool validateLP(string login, string password)
+        {
+            // Проверяем, что обе строки не пустые
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
+            {
+                return false;
+            }
 
+            // Проверяем, что в обеих строках есть символы
+            if (login.Length == 0 || password.Length == 0)
+            {
+                return false;
+            }
+
+            // Проверяем, что пароль содержит только допустимые символы
+            foreach (char c in password)
+            {
+                if (!char.IsLetterOrDigit(c) && c != '!' && c != '@' && c != '#' && c != '$' && c != '%' && c != '^' && c != '&' && c != '*')
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
         public string GetToken(string login, string password)
         {
             // Формирование URL-адреса запроса
-            string url = $"https://example.com?login={login}&password={password}";
+            string url = "http://"+"192.168.196.60:8082/auth" + $"?username={login}&password={password}";
 
             try
             {
                 // Создание объекта WebClient для выполнения HTTP-запроса
                 WebClient client = new WebClient();
-
-                // Установка заголовка User-Agent для обхода блокировок
-                client.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
+                client.Headers.Add("user-agent", "Windows Desktop Client v0.1");
 
                 // Выполнение HTTP-запроса и получение ответа в виде строки
                 string response = client.DownloadString(url);
 
-                // Обработка полученного ответа и извлечение токена
-                string token = response.Split(':')[1].Replace("\"", "").Trim();
-
-                return token;
+                return response;
             }
             catch (Exception ex)
             {
                 // Обработка ошибок при выполнении запроса
-                Console.WriteLine(ex.Message);
-                MessageBox.Show("Error occurred while getting token");
+                MessageBox.Show("ошибка получения токена");
                 return null;
             }
         }
+    }
+    public class AuthPacket
+    {
+        public string status;
+        public authDataPacket auth_data;
+    }
+    public class authDataPacket
+    {
+        public long id;
+        public string token;
+
     }
 }
