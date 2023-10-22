@@ -88,10 +88,10 @@ namespace GigaChat
         //мозготрах тут:
         private void LOGINbuttonReg_Click(object sender, EventArgs e)
         {
-            /*LoadingForm loadingForm = new LoadingForm(1,"soUseless");
+            LoadingForm loadingForm = new LoadingForm(1,"soUseless",1111222233334444);
             this.Hide();
-            loadingForm.Show();*/
-            try
+            loadingForm.Show();
+            /*try
             {
                 string LOGIN = loginBoxReg.Text;
                 string PASSWORD = passwordBoxReg.Text;
@@ -116,7 +116,7 @@ namespace GigaChat
             catch(Exception ex)
             {
                 MessageBox.Show($"при входе возникла непредвиденная ошибка:\n"+ ex.Message);
-            }
+            }*/
         }
         
         public bool validateLP(string login, string password)
@@ -163,7 +163,7 @@ namespace GigaChat
             catch (Exception ex)
             {
                 // Обработка ошибок при выполнении запроса
-                MessageBox.Show("ошибка получения токена");
+                MessageBox.Show($"ошибка получения токена:\n{ex}");
                 return null;
             }
         }

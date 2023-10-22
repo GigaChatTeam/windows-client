@@ -21,6 +21,7 @@ namespace GigaChat
         string token;
         long id;
         string path;
+        string user;
         public LoadingForm(int _part,string _token, long _id)
         {
             InitializeComponent();
