@@ -17,5 +17,16 @@ namespace GigaChat
             InitializeComponent();
         }
 
+        private void EXTRAEXIT_Click(object sender, EventArgs e)
+        {
+            // Закрытие всех открытых форм
+            foreach (Form form in Application.OpenForms)
+            {
+                form.Close();
+            }
+
+            // Завершение приложения
+            Application.Exit();
+        }
     }
 }

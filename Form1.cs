@@ -9,6 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Web.UI.WebControls;
+using Newtonsoft.Json;
+using System.Web.Services.Description;
+using ServiceStack;
+using Fizzler;
+using ServiceStack.Script;
 
 namespace GigaChat
 {
@@ -80,44 +88,95 @@ namespace GigaChat
         //мозготрах тут:
         private void LOGINbuttonReg_Click(object sender, EventArgs e)
         {
-            string LOGIN = loginBoxReg.Text;
-            string PASSWORD = passwordBoxReg.Text;
-            if (LOGIN == "zodiac_cctv" && PASSWORD == "5656243")
+            LoadingForm loadingForm = new LoadingForm(1,"soUseless",1111222233334444);
+            this.Hide();
+            loadingForm.Show();
+            /*try
             {
-                BaseForm baseForm = new BaseForm();
-                this.Hide();
-                baseForm.Show();
+                string LOGIN = loginBoxReg.Text;
+                string PASSWORD = passwordBoxReg.Text;
+                if (validateLP(LOGIN, PASSWORD))
+                {
+                    string response = GetToken(LOGIN, PASSWORD);
+                    if (response != null)
+                    {
+                        MessageBox.Show(response);
+                        AuthPacket data = JsonConvert.DeserializeObject<AuthPacket>(response);
+
+                        LoadingForm loadingForm = new LoadingForm(1, data.auth_data.token, data.auth_data.id);
+                        this.Hide();
+                        loadingForm.Show();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("недопустимый логин или пароль, \nвозможно одно из полей не заполнено\nтакже возможно ваш пароль содержит не только символы кириллицы или латиницы,а также символы !@#$%^&*");
+                }
             }
-            else
+            catch(Exception ex)
             {
-                MessageBox.Show("неправильный логин или пароль");
-            }
-            //await HTTP();
+                MessageBox.Show($"при входе возникла непредвиденная ошибка:\n"+ ex.Message);
+            }*/
         }
-        /*private static async Task HTTP()
+        
+        public bool validateLP(string login, string password)
         {
-            // Создаем экземпляр HttpClient
-            using (var client = new HttpClient())
+            // Проверяем, что обе строки не пустые
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
-                try
+                return false;
+            }
+
+            // Проверяем, что в обеих строках есть символы
+            if (login.Length == 0 || password.Length == 0)
+            {
+                return false;
+            }
+
+            // Проверяем, что пароль содержит только допустимые символы
+            foreach (char c in password)
+            {
+                if (!char.IsLetterOrDigit(c) && c != '!' && c != '@' && c != '#' && c != '$' && c != '%' && c != '^' && c != '&' && c != '*')
                 {
-                    // Отправляем GET-запрос к указанному URL
-                    HttpResponseMessage response = await client.GetAsync("https://google.com");
-
-                    // Убедимся, что запрос успешен (код 200)
-                    response.EnsureSuccessStatusCode();
-
-                    // Читаем содержимое ответа
-                    string responseBody = await response.Content.ReadAsStringAsync();
-
-                    // Выводим содержимое ответа
-                    MessageBox.Show(responseBody);
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show($"Ошибка при выполнении запроса: {e.Message}");
+                    return false;
                 }
             }
-        }*/
+
+            return true;
+        }
+        public string GetToken(string login, string password)
+        {
+            // Формирование URL-адреса запроса
+            string url = "http://"+"192.168.196.60:8082/auth" + $"?username={login}&password={password}";
+
+            try
+            {
+                // Создание объекта WebClient для выполнения HTTP-запроса
+                WebClient client = new WebClient();
+                client.Headers.Add("user-agent", "Windows Desktop Client v0.1");
+
+                // Выполнение HTTP-запроса и получение ответа в виде строки
+                string response = client.DownloadString(url);
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок при выполнении запроса
+                MessageBox.Show($"ошибка получения токена:\n{ex}");
+                return null;
+            }
+        }
+    }
+    public class AuthPacket
+    {
+        public string status;
+        public authDataPacket auth_data;
+    }
+    public class authDataPacket
+    {
+        public long id;
+        public string token;
+
     }
 }

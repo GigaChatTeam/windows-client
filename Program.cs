@@ -16,7 +16,7 @@ namespace GigaChat
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BaseForm());
+            Application.Run(new winRegister());//BaseForm
         }
     }
 }

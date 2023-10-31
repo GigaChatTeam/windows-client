@@ -29,27 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BaseForm));
-            this.chatsIconsLayout = new System.Windows.Forms.Panel();
             this.centeralWidget = new System.Windows.Forms.Panel();
             this.centralWidget = new System.Windows.Forms.Panel();
-            this.downLayoutPanel = new System.Windows.Forms.Panel();
-            this.CenterLayout = new System.Windows.Forms.Panel();
+            this.EXTRAEXIT = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // chatsIconsLayout
-            // 
-            this.chatsIconsLayout.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
-            this.chatsIconsLayout.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.chatsIconsLayout.AutoScroll = true;
-            this.chatsIconsLayout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.chatsIconsLayout.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.chatsIconsLayout.Cursor = System.Windows.Forms.Cursors.Default;
-            this.chatsIconsLayout.Enabled = false;
-            this.chatsIconsLayout.Location = new System.Drawing.Point(-6, -1);
-            this.chatsIconsLayout.Name = "chatsIconsLayout";
-            this.chatsIconsLayout.Size = new System.Drawing.Size(78, 489);
-            this.chatsIconsLayout.TabIndex = 0;
             // 
             // centeralWidget
             // 
@@ -73,36 +56,19 @@
             this.centralWidget.Size = new System.Drawing.Size(0, 489);
             this.centralWidget.TabIndex = 4;
             // 
-            // downLayoutPanel
+            // EXTRAEXIT
             // 
-            this.downLayoutPanel.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
-            this.downLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.downLayoutPanel.AutoScroll = true;
-            this.downLayoutPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.downLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.downLayoutPanel.Cursor = System.Windows.Forms.Cursors.Default;
-            this.downLayoutPanel.Enabled = false;
-            this.downLayoutPanel.Location = new System.Drawing.Point(69, 424);
-            this.downLayoutPanel.Name = "downLayoutPanel";
-            this.downLayoutPanel.Size = new System.Drawing.Size(747, 64);
-            this.downLayoutPanel.TabIndex = 1;
-            // 
-            // CenterLayout
-            // 
-            this.CenterLayout.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
-            this.CenterLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CenterLayout.AutoScroll = true;
-            this.CenterLayout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.CenterLayout.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.CenterLayout.Cursor = System.Windows.Forms.Cursors.Default;
-            this.CenterLayout.Enabled = false;
-            this.CenterLayout.Location = new System.Drawing.Point(69, -1);
-            this.CenterLayout.Name = "CenterLayout";
-            this.CenterLayout.Size = new System.Drawing.Size(747, 425);
-            this.CenterLayout.TabIndex = 2;
+            this.EXTRAEXIT.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.EXTRAEXIT.BackColor = System.Drawing.Color.DimGray;
+            this.EXTRAEXIT.BackgroundImage = global::GigaChat.Properties.Resources.loginBN1;
+            this.EXTRAEXIT.Font = new System.Drawing.Font("Comic Sans MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.EXTRAEXIT.Location = new System.Drawing.Point(387, 175);
+            this.EXTRAEXIT.Name = "EXTRAEXIT";
+            this.EXTRAEXIT.Size = new System.Drawing.Size(116, 37);
+            this.EXTRAEXIT.TabIndex = 5;
+            this.EXTRAEXIT.Text = "EXTRAEXIT";
+            this.EXTRAEXIT.UseVisualStyleBackColor = false;
+            this.EXTRAEXIT.Click += new System.EventHandler(this.EXTRAEXIT_Click);
             // 
             // BaseForm
             // 
@@ -110,11 +76,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(816, 489);
-            this.Controls.Add(this.chatsIconsLayout);
-            this.Controls.Add(this.downLayoutPanel);
+            this.Controls.Add(this.EXTRAEXIT);
             this.Controls.Add(this.centralWidget);
             this.Controls.Add(this.centeralWidget);
-            this.Controls.Add(this.CenterLayout);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(816, 489);
@@ -126,11 +90,8 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel chatsIconsLayout;
         private System.Windows.Forms.Panel centeralWidget;
         private System.Windows.Forms.Panel centralWidget;
-        private System.Windows.Forms.Panel downLayoutPanel;
-        private System.Windows.Forms.Panel CenterLayout;
+        private System.Windows.Forms.Button EXTRAEXIT;
     }
 }
