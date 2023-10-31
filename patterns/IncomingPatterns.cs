@@ -8,6 +8,6 @@ namespace GigaChat.patterns
 {
     internal class IncomingPatterns
     {
-        //incoming patterns
+        
     }
 }

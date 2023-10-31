@@ -342,7 +342,9 @@
     <Compile Include="LoadingForm.Designer.cs">
       <DependentUpon>LoadingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="patterns\Helper.cs" />
     <Compile Include="patterns\IncomingPatterns.cs" />
+    <Compile Include="patterns\Intentions.cs" />
     <Compile Include="patterns\OutgoingPatterns.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
