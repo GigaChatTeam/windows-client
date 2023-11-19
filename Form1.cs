@@ -34,12 +34,12 @@ namespace GigaChat
 
         private void exitReg_MouseHover(object sender, EventArgs e)
         {
-            exitReg.BackColor = Color.FromArgb(63,72,204);
+            exitReg.BackColor = Color.FromArgb(63, 72, 204);
         }
 
         private void exitReg_MouseLeave(object sender, EventArgs e)
         {
-            exitReg.BackColor = Color.FromArgb(0, 162, 232); 
+            exitReg.BackColor = Color.FromArgb(0, 162, 232);
         }
 
         private void registerReg_Click(object sender, EventArgs e)
@@ -49,12 +49,12 @@ namespace GigaChat
 
         private void registerReg_MouseHover(object sender, EventArgs e)
         {
-            registerReg.Font = new Font("Comic Sans MS",8,FontStyle.Underline);
+            registerReg.Font = new Font("Comic Sans MS", 8, FontStyle.Underline);
         }
 
         private void registerReg_MouseLeave(object sender, EventArgs e)
         {
-            registerReg.Font = new Font("Comic Sans MS",8);
+            registerReg.Font = new Font("Comic Sans MS", 8);
         }
 
         private void passwordVisCheckBox_MouseHover(object sender, EventArgs e)
@@ -83,21 +83,21 @@ namespace GigaChat
         }
         private void winRegister_MouseDown(object sender, MouseEventArgs e)
         {
-            lastPoint = new Point(e.X,e.Y);
+            lastPoint = new Point(e.X, e.Y);
         }
         //мозготрах тут:
         private void LOGINbuttonReg_Click(object sender, EventArgs e)
         {
-            LoadingForm loadingForm = new LoadingForm(1,"soUseless",1111222233334444);
+            /*LoadingForm loadingForm = new LoadingForm(1,"soUseless",1111222233334444);
             this.Hide();
-            loadingForm.Show();
-            /*try
+            loadingForm.Show();*/
+            try
             {
                 string LOGIN = loginBoxReg.Text;
                 string PASSWORD = passwordBoxReg.Text;
                 if (validateLP(LOGIN, PASSWORD))
                 {
-                    string response = GetToken(LOGIN, PASSWORD);
+                    Task response = GetToken(LOGIN, PASSWORD);
                     if (response != null)
                     {
                         MessageBox.Show(response);
@@ -109,16 +109,16 @@ namespace GigaChat
                     }
                 }
                 else
-                {
+                { 
                     MessageBox.Show("недопустимый логин или пароль, \nвозможно одно из полей не заполнено\nтакже возможно ваш пароль содержит не только символы кириллицы или латиницы,а также символы !@#$%^&*");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show($"при входе возникла непредвиденная ошибка:\n"+ ex.Message);
-            }*/
+                MessageBox.Show($"при входе возникла непредвиденная ошибка:\n" + ex.Message);
+            }
         }
-        
+
         public bool validateLP(string login, string password)
         {
             // Проверяем, что обе строки не пустые
@@ -144,21 +144,24 @@ namespace GigaChat
 
             return true;
         }
-        public string GetToken(string login, string password)
+        public async Task<HttpResponseMessage> GetToken(string login, string password)
         {
             // Формирование URL-адреса запроса
-            string url = "http://"+"192.168.196.60:8082/auth" + $"?username={login}&password={password}";
+            string url = "http://192.168.196.60:8080/auth" + $"?username={login}&password={password}";
 
             try
             {
                 // Создание объекта WebClient для выполнения HTTP-запроса
-                WebClient client = new WebClient();
-                client.Headers.Add("user-agent", "Windows Desktop Client v0.1");
+                HttpClient client = new HttpClient();
+                Dictionary<string, string> contentData = new Dictionary<string, string>() {
+                    { "username", login },
+                    { "password", password }
+                };
+                FormUrlEncodedContent content = new FormUrlEncodedContent(contentData);
+                client.DefaultRequestHeaders.Add("user-agent", "Windows Desktop Client v0.1");
 
                 // Выполнение HTTP-запроса и получение ответа в виде строки
-                string response = client.DownloadString(url);
-
-                return response;
+                return await client.PostAsync(url, content);
             }
             catch (Exception ex)
             {

@@ -1,17 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+﻿using cypher;
 using Microsoft.AspNet.SignalR.Client;
-using cypher;
 using ServiceStack.AsyncEx;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace GigaChat
 {
@@ -22,7 +15,7 @@ namespace GigaChat
         long id;
         string path;
         string user;
-        public LoadingForm(int _part,string _token, long _id)
+        public LoadingForm(int _part, string _token, long _id)
         {
             InitializeComponent();
             part = _part;
@@ -35,7 +28,7 @@ namespace GigaChat
             {
                 case 1:
                     loadingBar.Value = 0;
-                    CYPHER(token,getPath());
+                    CYPHER(token, getPath());
                     addToBar(50);
                     RTCDconnection();
                     addToBar(40);
@@ -63,14 +56,14 @@ namespace GigaChat
             }
             return path;
         }
-        public void CYPHER(string token,string path)
+        public void CYPHER(string token, string path)
         {
             Cypher cypherizing = new Cypher(token, path);
             cypherizing.Set();
         }
         public void addToBar(int value)
         {
-            if(value >= 0)
+            if (value >= 0)
             {
                 for (int i = 0; i < value; i++)
                 {
@@ -80,7 +73,7 @@ namespace GigaChat
             }
             else
             {
-                for(int i = 0; i > value; i--)
+                for (int i = 0; i > value; i--)
                 {
                     Thread.Sleep(10);
                     loadingBar.Value -= 10;
