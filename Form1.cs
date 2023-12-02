@@ -118,7 +118,6 @@ namespace GigaChat
                 MessageBox.Show($"при входе возникла непредвиденная ошибка:\n" + ex.Message);
             }
         }
-
         public bool validateLP(string login, string password)
         {
             // Проверяем, что обе строки не пустые
