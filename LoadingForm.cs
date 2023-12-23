@@ -28,7 +28,7 @@ namespace GigaChat
             {
                 case 1:
                     loadingBar.Value = 0;
-                    CYPHER(token, getPath());
+                    //CYPHER(token, getPath());
                     addToBar(50);
                     RTCDconnection();
                     addToBar(40);
@@ -56,11 +56,11 @@ namespace GigaChat
             }
             return path;
         }
-        public void CYPHER(string token, string path)
+        /*public void CYPHER(string token, string path)
         {
             Cypher cypherizing = new Cypher(token, path);
             cypherizing.Set();
-        }
+        }*/
         public void addToBar(int value)
         {
             if (value >= 0)

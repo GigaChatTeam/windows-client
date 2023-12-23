@@ -28,5 +28,10 @@ namespace GigaChat
             // Завершение приложения
             Application.Exit();
         }
+
+        private void BaseForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

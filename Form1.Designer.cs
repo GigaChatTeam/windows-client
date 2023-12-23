@@ -113,7 +113,7 @@ namespace GigaChat
             // LOGINbuttonReg
             // 
             this.LOGINbuttonReg.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(105)))), ((int)(((byte)(243)))));
-            this.LOGINbuttonReg.BackgroundImage = global::GigaChat.Properties.Resources.loginBN1;
+            this.LOGINbuttonReg.BackgroundImage = global::GigaChat.Properties.Resources.loginBN;
             this.LOGINbuttonReg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.LOGINbuttonReg.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LOGINbuttonReg.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -182,7 +182,7 @@ namespace GigaChat
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(105)))), ((int)(((byte)(243)))));
-            this.BackgroundImage = global::GigaChat.Properties.Resources.RegisterBG1;
+            this.BackgroundImage = global::GigaChat.Properties.Resources.RegisterBG;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(784, 500);
             this.Controls.Add(this.exitReg);

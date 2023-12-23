@@ -17,6 +17,7 @@ using System.Web.Services.Description;
 using ServiceStack;
 using Fizzler;
 using ServiceStack.Script;
+using System.Drawing.Drawing2D;
 
 namespace GigaChat
 {
@@ -86,27 +87,21 @@ namespace GigaChat
             lastPoint = new Point(e.X, e.Y);
         }
         //мозготрах тут:
-        private void LOGINbuttonReg_Click(object sender, EventArgs e)
+        private async void LOGINbuttonReg_Click(object sender, EventArgs e)
         {
-            /*LoadingForm loadingForm = new LoadingForm(1,"soUseless",1111222233334444);
-            this.Hide();
-            loadingForm.Show();*/
             try
             {
                 string LOGIN = loginBoxReg.Text;
                 string PASSWORD = passwordBoxReg.Text;
                 if (validateLP(LOGIN, PASSWORD))
                 {
-                    Task response = GetToken(LOGIN, PASSWORD);
-                    if (response != null)
-                    {
-                        MessageBox.Show(response);
-                        AuthPacket data = JsonConvert.DeserializeObject<AuthPacket>(response);
+                    string response = await (await GetToken(LOGIN, PASSWORD)).Content.ReadAsStringAsync();
+                    MessageBox.Show(response);
+                    AuthPacket data = JsonConvert.DeserializeObject<AuthPacket>(response);
 
-                        LoadingForm loadingForm = new LoadingForm(1, data.auth_data.token, data.auth_data.id);
-                        this.Hide();
-                        loadingForm.Show();
-                    }
+                    LoadingForm loadingForm = new LoadingForm(1, data.data.token, data.data.id);
+                    this.Hide();
+                    loadingForm.Show();
                 }
                 else
                 { 
@@ -146,7 +141,7 @@ namespace GigaChat
         public async Task<HttpResponseMessage> GetToken(string login, string password)
         {
             // Формирование URL-адреса запроса
-            string url = "http://192.168.196.60:8080/auth" + $"?username={login}&password={password}";
+            string url = "http://10.242.223.170:8084/auth" + $"?username={login}";
 
             try
             {
@@ -173,12 +168,12 @@ namespace GigaChat
     public class AuthPacket
     {
         public string status;
-        public authDataPacket auth_data;
+        public authDataPacket data;
     }
     public class authDataPacket
     {
         public long id;
         public string token;
-
+        public string username;
     }
 }
