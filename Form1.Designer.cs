@@ -75,6 +75,7 @@ namespace GigaChat
             this.loginBoxReg.Name = "loginBoxReg";
             this.loginBoxReg.Size = new System.Drawing.Size(155, 30);
             this.loginBoxReg.TabIndex = 3;
+            this.loginBoxReg.KeyDown += new System.Windows.Forms.KeyEventHandler(this.loginBoxReg_KeyDown);
             // 
             // loginReg
             // 
@@ -109,6 +110,7 @@ namespace GigaChat
             this.passwordBoxReg.Size = new System.Drawing.Size(155, 30);
             this.passwordBoxReg.TabIndex = 5;
             this.passwordBoxReg.UseSystemPasswordChar = true;
+            this.passwordBoxReg.KeyDown += new System.Windows.Forms.KeyEventHandler(this.passwordBoxReg_KeyDown);
             // 
             // LOGINbuttonReg
             // 

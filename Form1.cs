@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -7,7 +8,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -23,6 +23,7 @@ namespace GigaChat
 {
     public partial class winRegister : Form
     {
+        
         public winRegister()
         {
             InitializeComponent();
@@ -73,6 +74,23 @@ namespace GigaChat
             passwordBoxReg.UseSystemPasswordChar = (!passwordBoxReg.UseSystemPasswordChar) ? true : false;
         }
 
+        private void loginBoxReg_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                passwordBoxReg.Focus();
+            }
+        }
+        private void passwordBoxReg_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                LOGINbuttonReg_Click(sender, e);
+            }
+        }
+
+
+
         Point lastPoint;
         private void winRegister_MouseMove(object sender, MouseEventArgs e)
         {
@@ -86,7 +104,6 @@ namespace GigaChat
         {
             lastPoint = new Point(e.X, e.Y);
         }
-        //мозготрах тут:
         private async void LOGINbuttonReg_Click(object sender, EventArgs e)
         {
             try
@@ -164,6 +181,7 @@ namespace GigaChat
                 return null;
             }
         }
+
     }
     public class AuthPacket
     {
