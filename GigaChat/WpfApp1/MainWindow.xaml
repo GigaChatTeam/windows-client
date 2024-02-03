@@ -1,0 +1,51 @@
+﻿<Window x:Name="mainWindow" x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="GigaChat" Height="600" Width="900" WindowStyle="None" Background="#FF1B1B1B" SizeChanged="OnWindowResize" MinWidth="900" MinHeight="600">
+    <StackPanel x:Name="WindowLayout" Background="Black" Margin="0,0,0,0">
+        <StackPanel x:Name="SystemWindowPanel" Height="26" RenderTransformOrigin="0.5,0.5" Background="#FF323232" Margin="0,0,0,0" VerticalAlignment="Center" Orientation="Horizontal">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Label x:Name="GigaChatLabel" Content="GiGaChat" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontFamily="Magneto" FontSize="16" Background="{x:Null}" Foreground="White"/>
+            <StackPanel x:Name="SystemTopPanel" Width="720"/>
+            <Image x:Name="HideButton" Width="13" Height="13" MinWidth="13" MinHeight="13" MaxWidth="26" MaxHeight="26" Source="windowHide.png">
+                <Image.OpacityMask>
+                    <ImageBrush ImageSource="windowHide.png"/>
+                </Image.OpacityMask>
+            </Image>
+            <Image x:Name="ModeButton" Width="13" MinWidth="13" MinHeight="13" Height="13" MaxWidth="13" MaxHeight="13" Source="windowHigh.png" Margin="10,0,0,0">
+                <Image.OpacityMask>
+                    <ImageBrush ImageSource="windowLow.png"/>
+                </Image.OpacityMask>
+            </Image>
+            <Image x:Name="ExitButton" Width="13" Source="exit.png" Height="13" MaxWidth="13" MaxHeight="13" MinWidth="13" MinHeight="13" Margin="10,0,0,0" HorizontalAlignment="Right">
+                <Image.OpacityMask>
+                    <ImageBrush ImageSource="exit.png"/>
+                </Image.OpacityMask>
+            </Image>
+        </StackPanel>
+        <StackPanel x:Name="ControlDataPanel" Height="564" Background="#FF1B1B1B" Orientation="Horizontal">
+            <StackPanel x:Name="ControlPanel" Width="90" Background="#FF191919" Height="564" VerticalAlignment="Bottom">
+                <Image Height="70" Source="settings.png" Width="70" Margin="0">
+                    <Image.OpacityMask>
+                        <ImageBrush ImageSource="settings.png"/>
+                    </Image.OpacityMask>
+                </Image>
+            </StackPanel>
+            <StackPanel x:Name="DataPanel" Width="804" Background="#FF2B2B2B" HorizontalAlignment="Right">
+                <StackPanel x:Name="DataNamePanel" Height="43" Background="#FF232323"/>
+                <StackPanel x:Name="DataMesPanel" Height="526" Background="#FF282828"/>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</Window>
