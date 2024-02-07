@@ -24,10 +24,17 @@ namespace GigaChat
         public MainWindow()
         {
             InitializeComponent();
-            string channels = HTTPRequests.Get("http://10.242.223.170:8084/user/@me/channels?client=5&token=Et9pMkeTo9AYVCeDmzEiLmaHxS5kxtvkqQAoXiGNnfR7nzX9");
-            if(channels != "exception")
-            {
+            //string channels = HTTPRequests.Get("http://10.242.223.170:8084/user/@me/channels?client=5&token=Et9pMkeTo9AYVCeDmzEiLmaHxS5kxtvkqQAoXiGNnfR7nzX9");
 
+            string[] channelsNames = new string[2] { "chan1", "chan2" };
+            StackChannels[] channels = new StackChannels[channelsNames.Length];
+            if(channelsNames != null)
+            {
+                for(int i = 0; i < channelsNames.Length; i++)
+                {
+                    channels[i] = new StackChannels(channelsNames[i]);
+                    ChannelsPanel.Children.Add(channels[i]);
+                }
             }
             else
             {
@@ -45,7 +52,8 @@ namespace GigaChat
             DataPanel.Height = this.Height - SystemWindowPanel.Height;
             DataPanel.Width = this.Width * 0.9;
             DataMesPanel.Height = this.Height - SystemWindowPanel.Height - DataNamePanel.Height;
-            SystemTopPanel.Width = this.Width - 175;//- GigaChatLabel.Width - HideButton.Width - 10 - ModeButton.Width - 10 - ExitButton.Width
+            SystemTopPanel.Width = this.Width - 175;
+            ChannelsPanel.Width = this.Width - 99;
         }
 
         private void ExitButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -94,69 +102,36 @@ namespace GigaChat
             {
                 
                 MessageBox.Show(ex.Message);
-                return "exception";
+                return null;
             }
         }
     }
     // Класс для объекта с заголовком и текстом
-    /*public class CustomObject : Grid
+    public class StackChannels : Grid
     {
-        public CustomObject(string header, string text)
+        public StackChannels(string _header)
         {
             // Создание элементов для заголовка и текста
-            var label = new Label()
+            Label label = new Label()
             {
-                Content = header,
+                Content = _header,
                 FontSize = 18,
+                FontFamily = new System.Windows.Media.FontFamily("Comic Sans MS"),
                 FontWeight = FontWeights.Bold,
                 Margin = new Thickness(10)
             };
-
-            var textBox = new TextBox()
-            {
-                Text = text,
-                IsReadOnly = true,
-                Margin = new Thickness(10)
-            };
+            StackPanel panel = new StackPanel();
 
             // Добавление элементов в сетку
+            Children.Add(panel);
             Children.Add(label);
-            Children.Add(textBox);
-
             // Установка свойств для панельки
             Background = Brushes.LightGray;
             Opacity = 0.5;
 
             // Подписка на события наведения курсора
             MouseEnter += (s, e) => { Opacity = 1; };
-            MouseLeave += (s, e) => { Opacity = 0.5; };
+            MouseLeave += (s, e) => { Opacity = 0.6; };
         }
     }
-
-    public class ChannelsCheck
-    {
-        private void AddObjectToLeft_Click(object sender, RoutedEventArgs e)
-        {
-            // Создание объекта
-            var customObject = new CustomObject("Заголовок", "Текст");
-
-            // Установка выравнивания для панельки
-            customObject.HorizontalAlignment = HorizontalAlignment.Left;
-
-            // Добавление объекта в StackPanel
-            stackPanel.Children.Add(customObject);
-        }
-
-        private void AddObjectToRight_Click(object sender, RoutedEventArgs e)
-        {
-            // Создание объекта
-            var customObject = new CustomObject("Заголовок", "Текст");
-
-            // Установка выравнивания для панельки
-            customObject.HorizontalAlignment = HorizontalAlignment.Right;
-
-            // Добавление объекта в StackPanel
-            stackPanel.Children.Add(customObject);
-        }
-    }*/
 }

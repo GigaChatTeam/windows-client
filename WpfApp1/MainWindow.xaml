@@ -36,11 +36,20 @@
         </StackPanel>
         <StackPanel x:Name="ControlDataPanel" Height="564" Background="#FF1B1B1B" Orientation="Horizontal">
             <StackPanel x:Name="ControlPanel" Width="90" Background="#FF191919" Height="573" VerticalAlignment="Bottom" Margin="0,0,0,-9">
-                <Image Height="70" Source="settings.png" Width="70" Margin="0">
+                <Image x:Name="SettingsButtons" Height="70" Source="settings.png" Width="70" Margin="0">
                     <Image.OpacityMask>
                         <ImageBrush ImageSource="settings.png"/>
                     </Image.OpacityMask>
                 </Image>
+                <Rectangle x:Name="ChannelsLine" Fill="#FFF4F4F5" Height="3"  Margin="8,0" RadiusY="1.375" RadiusX="1.375"/>
+                <StackPanel x:Name="ChannelsPanel" Height="498">
+                    <StackPanel.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF191919"/>
+                            <GradientStop Color="#FF190000" Offset="1"/>
+                        </LinearGradientBrush>
+                    </StackPanel.Background>
+                </StackPanel>
             </StackPanel>
             <StackPanel x:Name="DataPanel" Width="804" Background="#FF2B2B2B" HorizontalAlignment="Right">
                 <StackPanel x:Name="DataNamePanel" Height="43" Background="#FF232323"/>
