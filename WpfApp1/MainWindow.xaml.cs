@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Net.Http;
-//using Newtonsoft.Json;
 using System.IO;
 using System.Text.Json;
 
@@ -33,7 +32,7 @@ namespace GigaChat
         {
             ControlDataPanel.Height = this.Height- SystemWindowPanel.Height;
             ControlPanel.Height = this.Height - SystemWindowPanel.Height;
-            ControlPanel.Width = this.Width *0.1;
+            ControlPanel.Width = this.Width *0.2;
             DataPanel.Height = this.Height - SystemWindowPanel.Height;
             DataPanel.Width = this.Width * 0.9;
             DataMesPanel.Height = this.Height - SystemWindowPanel.Height - DataNamePanel.Height;
@@ -73,23 +72,31 @@ namespace GigaChat
         {
             try
             {
-                /*Channel[] channelsResponse = */await HTTP.GetChannelsAsync();
-                /*StackChannel[] channels = new StackChannel[channelsResponse.Length];
-                for(int i = 0; i < channelsResponse.Length; i++)
+                /*DLBResponses.Success<Channel> channelsResponse = await HTTP.GetChannelsAsync();
+                StackChannel[] channels = new StackChannel[channelsResponse.data.Length];
+                for(int i = 0; i < channels.Length; i++)
                 {
-                    channels[i].id = channelsResponse[i].id;
-                    channels[i].title = channelsResponse[i].title;
-                    channels[i].description = channelsResponse[i].description;
-                    channels[i].created = channelsResponse[i].created;
-                    channels[i].enabled = channelsResponse[i].enabled;
-                    channels[i].lastmessage = channelsResponse[i].lastmessage;
-                    channels[i].icon = channelsResponse[i].icon;
-                }
-                foreach(StackChannel channel in channels)
-                {
-                    ChannelsPanel.Children.Add(channel);
+                    channels[i] = new StackChannel(
+                        channelsResponse.data[i].id,
+                        channelsResponse.data[i].title,
+                        channelsResponse.data[i].description,
+                        channelsResponse.data[i].enabled,
+                        channelsResponse.data[i].lastMessage,
+                        channelsResponse.data[i].icon
+                    );
+                    if (channels[i].enabled)
+                    {
+                        ChannelsPanel.Children.Add(channels[i]);
+                    }
                 }*/
-            }catch(Exception ex)
+                StackChannel channel = new StackChannel(1, "Chan", "descr",true,"wow",null);
+                if (channel.enabled)
+                {
+                    channel.Setting();
+                    ChannelsPanel.Children.Add(channel);
+                }
+            }
+            catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 Application.Current.Shutdown();
@@ -99,24 +106,18 @@ namespace GigaChat
 
     public class HTTP
     {
-        public static async Task<ChannelsData> GetChannelsAsync()
+        public static async Task<DLBResponses.Success<Channel>> GetChannelsAsync()
         {
             var url = "http://10.242.223.170:8084/user/@me/channels?client=5&token=Et9pMkeTo9AYVCeDmzEiLmaHxS5kxtvkqQAoXiGNnfR7nzX9&sort=id&order=asc&meta=true"; // Заменить на свой URL
 
             // Создание экземпляра HttpClient
             using (var client = new HttpClient())
             {
-                // Отправка GET-запроса и получение ответа
                 var response = await client.GetAsync(url);
-
-                // Проверка статуса ответа
                 if (response.IsSuccessStatusCode)
                 {
-                    // Преобразование ответа в строку JSON
                     var json = await response.Content.ReadAsStringAsync();
-
-                    // Десериализация JSON-данных в объекты классов
-                    var channelsData = JsonSerializer.Deserialize<ChannelsData>(json);
+                    DLBResponses.Success<Channel> channelsData = JsonSerializer.Deserialize<DLBResponses.Success<Channel>>(json);
 
                     foreach (var channel in channelsData.data)
                     {
@@ -133,12 +134,23 @@ namespace GigaChat
         }
     }
 
-    public class ChannelsData
+
+    public class DLBResponses
     {
-        public string status { set; get; }
-        public int count { get; set; }
-        public Channel[] data { set; get; }
+        public class Success<T>
+        {
+            public string status { set; get; }
+            public int count { get; set; }
+            public T[] data { set; get; }
+        }
+        public class AccessDenied
+        {
+            public string status { set; get; }
+            public string description { set; get; }
+        }
     }
+
+    
     public class Channel
     {
         public long id { set; get; }
@@ -149,16 +161,15 @@ namespace GigaChat
         public string icon { set; get; }
     }
 
-    // Класс для объекта с заголовком и текстом
     public class StackChannel : Grid
     {
-        public int id;
+        public long id;
         public string title;
         public string description;
         public bool enabled;
         public string lastMessage;
         public string icon;
-        public StackChannel(int _id,string _title,string _description,bool _enabled,string _lastmessage, string _icon)
+        public StackChannel(long _id,string _title,string _description,bool _enabled,string _lastmessage, string _icon)
         {
             id = _id;
             title = _title;
@@ -166,26 +177,61 @@ namespace GigaChat
             enabled = _enabled;
             lastMessage = _lastmessage;
             icon = _icon;
+        }
 
-            // Создание элементов для заголовка и текста
-            Label label = new Label()
+        public void Setting()
+        {
+            Border border = new Border()
             {
-                Content = _title,
+                CornerRadius = new CornerRadius(50)
+            };
+            StackPanel VJPanel = new StackPanel();
+            VJPanel.Orientation = Orientation.Horizontal;
+            StackPanel SubPanel = new StackPanel();
+            VJPanel.Orientation = Orientation.Vertical;
+            StackPanel SubPanel1 = new StackPanel();
+            VJPanel.Orientation = Orientation.Vertical;
+
+            Image ico = new Image();
+            ico.Source = new BitmapImage(new Uri(icon == null ? @"D:\Vadim\disk_X\GIT\windows-client\resourses\zeroImage.png" : icon));
+            ico.Width = 50;
+            ico.Height = 50;
+
+            Label Title = new Label()
+            {
+                Content = title,
                 FontSize = 18,
                 FontFamily = new System.Windows.Media.FontFamily("Comic Sans MS"),
                 FontWeight = FontWeights.Bold,
                 Margin = new Thickness(10)
             };
-            StackPanel panel = new StackPanel();
+            Label Description = new Label()
+            {
+                Content = description,
+                FontSize = 10,
+                FontFamily = new System.Windows.Media.FontFamily("Comic Sans MS"),
+                FontWeight = FontWeights.Bold,
+                Margin = new Thickness(5),
+                Opacity = 0.7
+            };
 
-            // Добавление элементов в сетку
-            Children.Add(panel);
-            Children.Add(label);
-            // Установка свойств для панельки
-            Background = new SolidColorBrush(Color.FromRgb(25, 25, 25)); ;
+            this.Margin = new Thickness(0, 10, 0, 0);
+            Children.Add(border);
+            border.Child = VJPanel;
+            VJPanel.Children.Add(SubPanel);
+            SubPanel.Children.Add(ico);
+            VJPanel.Children.Add(SubPanel1);
+            SubPanel1.Children.Add(Title);
+            SubPanel1.Children.Add(Description);
+            /*
+            |--------------------|
+            | image | title      |
+            |       | description|
+            |_______|____________|
+             */
+
+            Background = new SolidColorBrush(Color.FromRgb(20, 20, 20));
             Opacity = 0.5;
-
-            // Подписка на события наведения курсора
             MouseEnter += (s, e) => { Opacity = 1; };
             MouseLeave += (s, e) => { Opacity = 0.6; };
         }
