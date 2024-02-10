@@ -36,7 +36,7 @@
         </StackPanel>
         <StackPanel x:Name="ControlDataPanel" Height="564" Background="#FF1B1B1B" Orientation="Horizontal">
             <StackPanel x:Name="ControlPanel" Width="90" Background="#FF191919" Height="573" VerticalAlignment="Bottom" Margin="0,0,0,-9">
-                <Image x:Name="SettingsButtons" Height="70" Source="settings.png" Width="70" Margin="0">
+                <Image x:Name="SettingsButton" Height="70" Source="settings.png" Width="70" Margin="0">
                     <Image.OpacityMask>
                         <ImageBrush ImageSource="settings.png"/>
                     </Image.OpacityMask>

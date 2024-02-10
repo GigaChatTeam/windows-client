@@ -119,6 +119,7 @@
     <Compile Include="LoaderWindow.xaml.cs">
       <DependentUpon>LoaderWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LocalData.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

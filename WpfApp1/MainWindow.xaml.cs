@@ -37,7 +37,8 @@ namespace GigaChat
             DataPanel.Width = this.Width * 0.9;
             DataMesPanel.Height = this.Height - SystemWindowPanel.Height - DataNamePanel.Height;
             SystemTopPanel.Width = this.Width - 175;
-            ChannelsPanel.Width = this.Width - 99;
+            ChannelsPanel.Width = ControlPanel.Width;
+            ChannelsPanel.Height = ControlPanel.Height - ChannelsLine.Height - SettingsButton.Height - SystemWindowPanel.Height;
         }
 
         private void ExitButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -70,36 +71,36 @@ namespace GigaChat
 
         private async void mainWindow_Initialized(object sender, EventArgs e)
         {
-            try
+            bool isDLBOn = true;
+            if (isDLBOn)
             {
-                /*DLBResponses.Success<Channel> channelsResponse = await HTTP.GetChannelsAsync();
-                StackChannel[] channels = new StackChannel[channelsResponse.data.Length];
-                for(int i = 0; i < channels.Length; i++)
+                try
                 {
-                    channels[i] = new StackChannel(
-                        channelsResponse.data[i].id,
-                        channelsResponse.data[i].title,
-                        channelsResponse.data[i].description,
-                        channelsResponse.data[i].enabled,
-                        channelsResponse.data[i].lastMessage,
-                        channelsResponse.data[i].icon
-                    );
-                    if (channels[i].enabled)
+                    DLBResponses.Success<Channel> channelsResponse = await HTTP.GetChannelsAsync();
+                    StackChannel[] channels = new StackChannel[channelsResponse.data.Length];
+                    for (int i = 0; i < channels.Length; i++)
                     {
+                        channels[i] = new StackChannel(
+                            channelsResponse.data[i].id,
+                            channelsResponse.data[i].title,
+                            channelsResponse.data[i].description,
+                            channelsResponse.data[i].enabled,
+                            channelsResponse.data[i].lastMessage,
+                            channelsResponse.data[i].icon
+                        );
                         ChannelsPanel.Children.Add(channels[i]);
                     }
-                }*/
-                StackChannel channel = new StackChannel(1, "Chan", "descr",true,"wow",null);
-                if (channel.enabled)
+                }
+                catch (Exception ex)
                 {
-                    channel.Setting();
-                    ChannelsPanel.Children.Add(channel);
+                    MessageBox.Show(ex.Message);
+                    Application.Current.Shutdown();
                 }
             }
-            catch(Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message);
-                Application.Current.Shutdown();
+                StackChannel channel = new StackChannel(1, "12345678901234567890", "descr", true, "wow", LocalData.CUSTOM_CHANNEL);
+                ChannelsPanel.Children.Add(channel);
             }
         }
     } 
@@ -108,21 +109,20 @@ namespace GigaChat
     {
         public static async Task<DLBResponses.Success<Channel>> GetChannelsAsync()
         {
-            var url = "http://10.242.223.170:8084/user/@me/channels?client=5&token=Et9pMkeTo9AYVCeDmzEiLmaHxS5kxtvkqQAoXiGNnfR7nzX9&sort=id&order=asc&meta=true"; // Заменить на свой URL
 
             // Создание экземпляра HttpClient
             using (var client = new HttpClient())
             {
-                var response = await client.GetAsync(url);
+                var response = await client.GetAsync(LocalData.HTTP_URL);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
                     DLBResponses.Success<Channel> channelsData = JsonSerializer.Deserialize<DLBResponses.Success<Channel>>(json);
 
-                    foreach (var channel in channelsData.data)
+                    /*foreach (var channel in channelsData.data)
                     {
                         MessageBox.Show($"ID: {channel.id}\nTitle: {channel.title}\nDescription: {channel.description}\nEnabled: {channel.enabled}\nIcon: {channel.icon}");
-                    }
+                    }*/
                     return channelsData;
                 }
                 else
@@ -161,79 +161,61 @@ namespace GigaChat
         public string icon { set; get; }
     }
 
-    public class StackChannel : Grid
+    public class StackChannel : StackPanel
     {
         public long id;
-        public string title;
-        public string description;
+        public Label title;
+        public Label description;
         public bool enabled;
         public string lastMessage;
-        public string icon;
-        public StackChannel(long _id,string _title,string _description,bool _enabled,string _lastmessage, string _icon)
+        public Image icon;
+        StackPanel metaPanel;
+        StackPanel dataPanel;
+        public StackChannel(long _id, string _title, string _description, bool _enabled, string _lastmessage, string _icon)
         {
             id = _id;
-            title = _title;
-            description = _description;
             enabled = _enabled;
             lastMessage = _lastmessage;
-            icon = _icon;
-        }
 
-        public void Setting()
-        {
-            Border border = new Border()
+
+
+            metaPanel = new StackPanel()
             {
-                CornerRadius = new CornerRadius(50)
+                Orientation = Orientation.Vertical,
+                Height = 50,
+                Width = 50
             };
-            StackPanel VJPanel = new StackPanel();
-            VJPanel.Orientation = Orientation.Horizontal;
-            StackPanel SubPanel = new StackPanel();
-            VJPanel.Orientation = Orientation.Vertical;
-            StackPanel SubPanel1 = new StackPanel();
-            VJPanel.Orientation = Orientation.Vertical;
-
-            Image ico = new Image();
-            ico.Source = new BitmapImage(new Uri(icon == null ? @"D:\Vadim\disk_X\GIT\windows-client\resourses\zeroImage.png" : icon));
-            ico.Width = 50;
-            ico.Height = 50;
-
-            Label Title = new Label()
+            dataPanel = new StackPanel()
             {
-                Content = title,
+                Orientation = Orientation.Vertical,
+                Height = 50,
+                Width = 100
+            };
+
+            icon = new Image
+            {
+                Source = new BitmapImage(new Uri(_icon == null ? LocalData.DEFAULT_ICON_PATH : _icon)), 
+                Stretch = Stretch.UniformToFill,
+            };
+            metaPanel.Children.Add(icon);
+            Height = 50;
+            Orientation = Orientation.Horizontal;
+
+            title = new Label()
+            {
+                Content = _title,
                 FontSize = 18,
-                FontFamily = new System.Windows.Media.FontFamily("Comic Sans MS"),
-                FontWeight = FontWeights.Bold,
-                Margin = new Thickness(10)
+                FontFamily = new FontFamily("Comic Sans MS"),
+                Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255))
             };
-            Label Description = new Label()
-            {
-                Content = description,
-                FontSize = 10,
-                FontFamily = new System.Windows.Media.FontFamily("Comic Sans MS"),
-                FontWeight = FontWeights.Bold,
-                Margin = new Thickness(5),
-                Opacity = 0.7
-            };
+            dataPanel.Children.Add(title);
 
-            this.Margin = new Thickness(0, 10, 0, 0);
-            Children.Add(border);
-            border.Child = VJPanel;
-            VJPanel.Children.Add(SubPanel);
-            SubPanel.Children.Add(ico);
-            VJPanel.Children.Add(SubPanel1);
-            SubPanel1.Children.Add(Title);
-            SubPanel1.Children.Add(Description);
-            /*
-            |--------------------|
-            | image | title      |
-            |       | description|
-            |_______|____________|
-             */
-
-            Background = new SolidColorBrush(Color.FromRgb(20, 20, 20));
-            Opacity = 0.5;
-            MouseEnter += (s, e) => { Opacity = 1; };
-            MouseLeave += (s, e) => { Opacity = 0.6; };
+            this.HorizontalAlignment = HorizontalAlignment.Center;
+            this.Margin = new Thickness(0, 10, 0, 10); //left, top, right, bottom
+            this.Children.Add(metaPanel);
+            this.Children.Add(dataPanel);
         }
+    
+        //publi
     }
 }
