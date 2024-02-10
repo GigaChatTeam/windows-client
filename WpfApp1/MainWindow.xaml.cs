@@ -21,12 +21,12 @@ namespace GigaChat
     public partial class MainWindow : Window
     {
         float animationHideTime = 0.3f;
+        HashSet<ResizableUIElement> widgets = new HashSet<ResizableUIElement>();
 
         public MainWindow()
         {
             InitializeComponent();
         }
-
 
         private void OnWindowResize(object sender, SizeChangedEventArgs e)
         {
@@ -39,13 +39,19 @@ namespace GigaChat
             SystemTopPanel.Width = this.Width - 175;
             ChannelsPanel.Width = ControlPanel.Width;
             ChannelsPanel.Height = ControlPanel.Height - ChannelsLine.Height - SettingsButton.Height - SystemWindowPanel.Height;
+            
+            foreach(var widget in widgets)
+            {
+                if (widget != null)
+                    widget.resize(this.Width, this.Height);
+            }
         }
 
         private void ExitButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Application.Current.Shutdown();
         }
-
+        
         private async void HideButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             for(int i = 9; i>=0; i--)
@@ -71,7 +77,7 @@ namespace GigaChat
 
         private async void mainWindow_Initialized(object sender, EventArgs e)
         {
-            bool isDLBOn = true;
+            bool isDLBOn = false;
             if (isDLBOn)
             {
                 try
@@ -89,6 +95,7 @@ namespace GigaChat
                             channelsResponse.data[i].icon
                         );
                         ChannelsPanel.Children.Add(channels[i]);
+                        widgets.Add(channels[i]);
                     }
                 }
                 catch (Exception ex)
@@ -101,9 +108,18 @@ namespace GigaChat
             {
                 StackChannel channel = new StackChannel(1, "12345678901234567890", "descr", true, "wow", LocalData.CUSTOM_CHANNEL);
                 ChannelsPanel.Children.Add(channel);
+                widgets.Add(channel);
+                StackChannel channel1 = new StackChannel(2, "парапапарам", "zeroDESC", true, "LOL", null);
+                ChannelsPanel.Children.Add(channel1);
+                widgets.Add(channel1);
             }
         }
     } 
+
+    interface ResizableUIElement
+    {
+        void resize(double Width, double Height);
+    }
 
     public class HTTP
     {
@@ -161,7 +177,7 @@ namespace GigaChat
         public string icon { set; get; }
     }
 
-    public class StackChannel : StackPanel
+    public class StackChannel : StackPanel, ResizableUIElement
     {
         public long id;
         public Label title;
@@ -176,7 +192,6 @@ namespace GigaChat
             id = _id;
             enabled = _enabled;
             lastMessage = _lastmessage;
-
 
 
             metaPanel = new StackPanel()
@@ -194,8 +209,7 @@ namespace GigaChat
 
             icon = new Image
             {
-                Source = new BitmapImage(new Uri(_icon == null ? LocalData.DEFAULT_ICON_PATH : _icon)), 
-                Stretch = Stretch.UniformToFill,
+                Source = new BitmapImage(new Uri(_icon == null ? LocalData.DEFAULT_ICON_PATH : _icon))
             };
             metaPanel.Children.Add(icon);
             Height = 50;
@@ -214,8 +228,29 @@ namespace GigaChat
             this.Margin = new Thickness(0, 10, 0, 10); //left, top, right, bottom
             this.Children.Add(metaPanel);
             this.Children.Add(dataPanel);
+
+            Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+            Opacity = 0.6;
+            MouseEnter += (s, e) => { Opacity = 1; };
+            MouseLeave += (s, e) => { Opacity = 0.6; };
         }
-    
-        //publi
+        
+        public void resize(double Width, double Height)
+        {
+            this.Width = Width * 0.15;
+            metaPanel.Width = this.Width * 0.3;
+            dataPanel.Width = this.Width * 0.7;
+
+            if (metaPanel.Height < metaPanel.Width)
+            {
+                icon.Width = metaPanel.Height;
+                icon.Height = metaPanel.Height;
+            }
+            else
+            {
+                icon.Width = metaPanel.Width;
+                icon.Height = metaPanel.Width;
+            }
+        }
     }
 }

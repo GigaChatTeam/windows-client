@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GigaChat"
         mc:Ignorable="d"
-        Title="GigaChat" Height="600" Width="900" Background="#FF1B1B1B" SizeChanged="OnWindowResize" MinWidth="900" MinHeight="600" AllowsTransparency="True" WindowStyle="None" Initialized="mainWindow_Initialized">
+        Title="GigaChat" Height="600" Width="900" Background="#FF1B1B1B" SizeChanged="OnWindowResize" MinWidth="900" MinHeight="600" Initialized="mainWindow_Initialized" WindowStyle="ToolWindow">
     <StackPanel x:Name="WindowLayout" Background="Black" Margin="0,0,0,0">
         <StackPanel x:Name="SystemWindowPanel" Height="26" RenderTransformOrigin="0.5,0.5" Background="#FF323232" Margin="0,0,0,0" VerticalAlignment="Center" Orientation="Horizontal">
             <StackPanel.RenderTransform>
