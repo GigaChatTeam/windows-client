@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GigaChat"
         mc:Ignorable="d"
-        Title="GigaChat" Height="600" Width="900" Background="#FF1B1B1B" SizeChanged="OnWindowResize" MinWidth="900" MinHeight="600" Initialized="mainWindow_Initialized" WindowStyle="ToolWindow">
+        Title="GigaChat" Height="600" Width="900" Background="#FF1B1B1B" SizeChanged="OnWindowResize" MinWidth="900" MinHeight="600" Initialized="mainWindow_Initialized" ScrollViewer.VerticalScrollBarVisibility="Disabled" WindowStyle="None">
     <StackPanel x:Name="WindowLayout" Background="Black" Margin="0,0,0,0">
         <StackPanel x:Name="SystemWindowPanel" Height="26" RenderTransformOrigin="0.5,0.5" Background="#FF323232" Margin="0,0,0,0" VerticalAlignment="Center" Orientation="Horizontal">
             <StackPanel.RenderTransform>
@@ -42,18 +42,20 @@
                     </Image.OpacityMask>
                 </Image>
                 <Rectangle x:Name="ChannelsLine" Fill="#FFF4F4F5" Height="3"  Margin="8,0" RadiusY="1.375" RadiusX="1.375"/>
-                <StackPanel x:Name="ChannelsPanel" Height="498">
-                    <StackPanel.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FF191919"/>
-                            <GradientStop Color="#FF190000" Offset="1"/>
-                        </LinearGradientBrush>
-                    </StackPanel.Background>
-                </StackPanel>
+                <ScrollViewer x:Name="ChannelPanelScrollViewer" Width="90" HorizontalAlignment="Left" Cursor="Hand">
+                    <StackPanel x:Name="ChannelsPanel" Height="495" CanVerticallyScroll="True" ScrollViewer.CanContentScroll="True">
+                        <StackPanel.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF13214D"/>
+                                <GradientStop Color="#FF014037" Offset="1"/>
+                            </LinearGradientBrush>
+                        </StackPanel.Background>
+                    </StackPanel>
+                </ScrollViewer>
             </StackPanel>
             <StackPanel x:Name="DataPanel" Width="804" Background="#FF2B2B2B" HorizontalAlignment="Right">
                 <StackPanel x:Name="DataNamePanel" Height="43" Background="#FF232323"/>
-                <StackPanel x:Name="DataMesPanel" Height="530" Background="#FF282828"/>
+                <StackPanel x:Name="DataMesPanel" Height="523" Background="#FF282828"/>
             </StackPanel>
         </StackPanel>
     </StackPanel>
