@@ -2,10 +2,12 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>baseLogo.ico</ApplicationIcon>
+    <StartupObject>GigaChat.LoaderWindow</StartupObject>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,11 +19,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove=".png" />
     <None Remove="baseLogo.jpg" />
     <None Remove="exit.png" />
+    <None Remove="forms\MainWindow\BaseLogo.jpg" />
+    <None Remove="forms\MainWindow\exit.png" />
+    <None Remove="forms\MainWindow\settings.png" />
+    <None Remove="forms\MainWindow\windowHide.png" />
+    <None Remove="forms\MainWindow\windowHigh.png" />
     <None Remove="settings.png" />
-    <None Remove="windowHide.png" />
     <None Remove="windowHigh.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="baseLogo.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,11 +40,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="baseLogo.jpg" />
-    <Resource Include="exit.png" />
-    <Resource Include="settings.png" />
-    <Resource Include="windowHide.png" />
-    <Resource Include="windowHigh.png" />
+    <Resource Include="forms\MainWindow\BaseLogo.jpg" />
+    <Resource Include="forms\MainWindow\exit.png" />
+    <Resource Include="forms\MainWindow\settings.png" />
+    <Resource Include="forms\MainWindow\windowHide.png" />
+    <Resource Include="forms\MainWindow\windowHigh.png" />
   </ItemGroup>
 
 </Project>

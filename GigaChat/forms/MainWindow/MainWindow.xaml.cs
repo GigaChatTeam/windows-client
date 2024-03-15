@@ -17,18 +17,16 @@ using System.IO;
 using System.Text.Json;
 using UIWigets;
 
-namespace GigaChat
-{
+namespace GigaChat {
     public partial class MainWindow : Window
     {
         float animationHideTime = 0.3f;
         HashSet<ResizableUIElement> widgets = new HashSet<ResizableUIElement>();
+
         public MainWindow()
         {
             InitializeComponent();
         }
-
-
         private void OnWindowResize(object sender, SizeChangedEventArgs e)
         {
             ControlDataPanel.Height = this.Height - SystemWindowPanel.Height;
@@ -82,31 +80,42 @@ namespace GigaChat
             }
         }
 
+        private void SystemTopPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
+
         private async void mainWindow_Initialized(object sender, EventArgs e)
         {
-            bool isDLBOn = false;
+            bool isDLBOn = true;
             if (isDLBOn)
             {
                 try
                 {
                     DLBResponses.Success<Channel>? channelsResponse = await HTTPRequests.GetChannelsAsync();
-                    if (channelsResponse == null)
-                        return;
-                    //StackChannel[] channels = new StackChannel[channelsResponse.data.Length];
-                    //for (int i = 0; i < channelsResponse.count; i++)
-                    foreach (var channel in channelsResponse.data)
+                    if (channelsResponse == null) return;
+
+                    List<StackChannel> channels = new List<StackChannel>();
+                    foreach (var channelE in channelsResponse.data)
                     {
-                        StackChannel chan = new StackChannel(
-                            channel.id,
-                            channel.title,
-                            channel.description,
-                            channel.enabled,
-                            channel.icon,
-                            channel.lastMessage
+                        StackChannel channel = new StackChannel(
+                            channelE.id,
+                            channelE.userStatus,
+                            channelE.title,
+                            channelE.description,
+                            channelE.isPublic,
+                            channelE.enabled,
+                            channelE.icon,
+                            channelE.lastMessage
                         );
-                        ChannelsPanel.Children.Add(chan);
-                        widgets.Add(chan);
+                        channels.Add( channel );
+                        ChannelsPanel.Children.Add( channel );
+                        widgets.Add( channel );
                     }
+                    MessageBox.Show("инициализировано");
                 }
                 catch (Exception ex)
                 {
@@ -114,43 +123,39 @@ namespace GigaChat
                     Application.Current.Shutdown();
                 }
             }
-        }
-    }
-
-    public class Message
-    {
-        public long id;
-        public string author;
-        public bool edited;
-        public string timeStamp;
-        public string type;
-        public string content;
-        public Forward? forward;
-        public long[]? files;
-        public long[][]? media;
-        public Message(long _id, string _author, bool _edited, string _timeStamp, string _type, string _content)
-        {
-            id = _id;
-            author = _author;
-            edited = _edited;
-            timeStamp = _timeStamp;
-            type = _type;
-            content = _content;
-
-            //тут создание сообщения
-        }
-
-    }
-
-    public class Forward
-    {
-        public string type { set; get; }
-        public long[] path { set; get; }
-
-        public Forward(string _type, long[] _path)
-        {
-            this.type = _type;
-            this.path = _path;
+            else
+            {
+                StackChannel channel = new StackChannel
+                (
+                    1,
+                    1,
+                    "title",
+                    "description",
+                    true,
+                    true,
+                    new CloudFile
+                    {
+                        id = 1,
+                        uri = LocalData.DEFAULT_ICON_PATH
+                    },
+                    new ChannelLastMessage
+                    {
+                        id = 1,
+                        author = "",
+                        edited = false,
+                        timestamp = "",
+                        type = "system",
+                        data = "",
+                        files = new long[] {},
+                        media = new long[][] {},
+                        forward = new Forward
+                        {
+                            type = "no",
+                            path = new long[] {}
+                        }
+                    }
+                );
+            }
         }
     }
 }
