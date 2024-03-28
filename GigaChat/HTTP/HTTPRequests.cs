@@ -46,5 +46,25 @@ namespace GigaChat
                 return null;
             }
         }
+
+        public static async Task<DLBResponses.Success<Message>?> GetMessagesAsync()
+        {
+            HttpResponseMessage response = await client.GetAsync(LocalData.HTTP_URL);
+            if (response.IsSuccessStatusCode)
+            {
+                string? json = await response.Content.ReadAsStringAsync();
+                if (json == null)
+                {
+                    MessageBox.Show($"Error: {response.StatusCode}");
+                    return null;
+                }
+                return JsonSerializer.Deserialize<DLBResponses.Success<Message>>(json);
+            }
+            else
+            {
+                MessageBox.Show($"Error: {response.StatusCode}");
+                return null;
+            }
+        }
     }
 }

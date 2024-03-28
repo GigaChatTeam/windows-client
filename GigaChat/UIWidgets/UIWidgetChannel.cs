@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows;
 using System.Windows.Shapes;
 using System.Configuration;
+using System.Net;
 
 namespace UIWigets
 {
@@ -35,7 +36,7 @@ namespace UIWigets
         public bool isPublic;
         public bool enabled;
         public ChannelCustomImage icon;
-        public ChannelLastMessage lastMessageData;
+        public ChannelLastMessage? lastMessageData;
         public Label lastMessage;
 
         StackPanel metaPanel;
@@ -50,8 +51,8 @@ namespace UIWigets
             string _description,
             bool _isPublic,
             bool _enabled,
-            CloudFile _icon,
-            ChannelLastMessage _lastMessageData
+            CloudFile? _icon,
+            ChannelLastMessage? _lastMessageData
         )
         {
             id = _id;
@@ -129,6 +130,25 @@ namespace UIWigets
                 Opacity = 0.6;
                 MouseEnter += SP_MouseEnter;
                 MouseLeave += SP_MouseLeave;
+                MouseLeftButtonDown += SP_MouseLeftButtonDown;
+        }
+
+        private void SP_MouseLeftButtonDown(object sender, MouseEventArgs e)
+        {
+            //ChannelsPanel.Children.Clear();
+            //deselect all channels
+            /*
+            ChannelPanel.Background = new LinearGradientBrush()
+            {
+                StartPoint = new Point(0, 0.5),
+                    EndPoint = new Point(1, 0.5)
+            };
+            Gradient.GradientStops.Add(new GradientStop(Color.FromRgb(150, 150, 150), 0.0));
+            Gradient.GradientStops.Add(new GradientStop(Color.FromRgb(0, 255, 243), 1));
+            */
+            //DataNamePanel = Channel.icon;
+            //MessagePanel_ChannelName.Text = Channel.Title;
+            //request
         }
 
         private async void SP_MouseEnter(object sender, MouseEventArgs e)

@@ -6,27 +6,16 @@ using System.Threading.Tasks;
 
 namespace GigaChat
 {
-    public class Message
+    public record class Message
     {
-        public long id;
-        public string author;
-        public bool edited;
-        public string timeStamp;
-        public string type;
-        public string content;
-        public Forward? forward;
-        public long[]? files;
-        public long[][]? media;
-        public Message(long _id, string _author, bool _edited, string _timeStamp, string _type, string _content)
-        {
-            id = _id;
-            author = _author;
-            edited = _edited;
-            timeStamp = _timeStamp;
-            type = _type;
-            content = _content;
-
-            //тут создание сообщения
-        }
+        public required long id { set; get; }
+        public required long author { set; get; }
+        public required bool edited { set; get; }
+        public required string timeStamp { set; get; }
+        public required string type { set; get; }
+        public required string content { set; get; }
+        public required long[]? files { set; get; }
+        public required long[][]? media { set; get; }
+        public required Forward? forward { set; get; }
     }
 }

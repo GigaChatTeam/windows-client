@@ -27,7 +27,7 @@ namespace GigaChat
         [STAThread]
         public static void Main()
         {
-            var app = new Application();
+            Application app = new Application();
             app.Run(new LoaderWindow());
         }
         public LoaderWindow()
