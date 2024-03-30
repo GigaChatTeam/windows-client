@@ -1,5 +1,5 @@
 # Windows client for GigaChat
-Written in javascript and with C# .NET 
+Written on C# .NET 
 
 # Installation
 nothing here yet...
