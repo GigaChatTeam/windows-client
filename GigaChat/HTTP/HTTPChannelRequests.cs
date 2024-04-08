@@ -10,7 +10,7 @@ using System.Net.Http.Headers;
 
 namespace GigaChat
 {
-    public class HTTPRequests
+    public class HTTPChannelRequests
     {
         private static HttpClient client = new HttpClient();
         

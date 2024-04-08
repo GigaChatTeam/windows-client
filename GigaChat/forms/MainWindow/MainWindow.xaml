@@ -39,14 +39,12 @@
             <StackPanel x:Name="DataPanel" Width="697" Background="#FF2B2B2B">
                 <StackPanel x:Name="DataNamePanel" Height="43" Background="#FF232323" Orientation="Horizontal" Cursor="Arrow">
                     <Image x:Name="MessagePanel_ChannelAvatar" Width="25" Height="25" Margin="10,0,0,0" Visibility="Collapsed" />
-                    <Label x:Name="MessagePanel_ChannelName" Content="Выберите, кому хотели бы написать..." FontFamily="Comic Sans MS" FontSize="16" Foreground="White" FontWeight="Bold" Margin="5,5,0,0"/>
+                    <Label x:Name="MessagePanel_ChannelName" Content="Выберите, кому хотели бы написать..." FontFamily="Comic Sans MS" FontSize="16" Foreground="White" FontWeight="Bold" Margin="5,5,0,0" Cursor="Hand"/>
                 </StackPanel>
-                <Border x:Name="DataMesPanel" CornerRadius="20,20,20,20" Background="#FF2D2D2D" Cursor="Hand" Width="694">
-                    <ScrollViewer x:Name="MessagePanelScrollbar" CanContentScroll="True" FontFamily="Arial Rounded MT Bold" Height="461" Cursor="Hand" HorizontalAlignment="Center" Width="694">
-                        <StackPanel x:Name="MessagePanel" Height="471" Cursor="Arrow"/>
-                    </ScrollViewer>
-                </Border>
-                <StackPanel x:Name="MessageCreatePanel" Height="47" Background="#FF2D2D2D" Orientation="Horizontal" Margin="0,0,0,15" Cursor="Hand">
+                <ScrollViewer x:Name="MessagePanelScrollbar" Background="#FF2B2B2B" CanContentScroll="True" FontFamily="Arial Rounded MT Bold" Height="461" Cursor="Hand" HorizontalAlignment="Center" Width="694" UseLayoutRounding="False" VerticalContentAlignment="Bottom">
+                    <StackPanel x:Name="MessagePanel"  VerticalAlignment="Bottom" CanVerticallyScroll="True" Cursor="Hand"/>
+                </ScrollViewer>
+                    <StackPanel x:Name="MessageCreatePanel" Height="47" Background="#FF2D2D2D" Orientation="Horizontal" Margin="0,0,0,15" Cursor="">
                     <Border x:Name="CreateMessageBorder" BorderBrush="Black" BorderThickness="1" CornerRadius="15,15,15,15" Height="38" Background="#FF505050" Margin="20,0,20,0" Width="654" Padding="9,0,9,0" ScrollViewer.HorizontalScrollBarVisibility="Auto" MouseDown="CreateMessageBorder_MouseDown" Cursor="IBeam">
                         <TextBox x:Name="MessageTextCreate" TextWrapping="Wrap" Text="Написать....." Margin="9,9,9,9" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" SelectionTextBrush="{x:Null}" SelectionBrush="#FF009CFF" VerticalScrollBarVisibility="Disabled" FontFamily="Comic Sans MS" Height="18" Width="709" GotFocus="MessageTextCreate_GotFocus" Opacity="0.6" LostFocus="MessageTextCreate_LostFocus" Cursor="IBeam" FontWeight="Bold" BorderThickness="0,0,0,0" CaretBrush="White"/>
                     </Border>

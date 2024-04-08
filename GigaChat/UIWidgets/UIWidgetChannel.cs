@@ -1,32 +1,14 @@
 ﻿using GigaChat;
-using System;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows;
-using System.Windows.Shapes;
-using System.Configuration;
-using System.Net;
+using UIWidgets;
+using System.Windows.Documents;
 
 namespace UIWigets
 {
-    public class ChannelCustomImage : Image
-    {
-        Image? icon;
-        private ChannelCustomImage(Image _icon)
-        {
-            icon = _icon;
-        }
-        public ChannelCustomImage(string _source) : this(
-           new Image
-           {
-               Source = new BitmapImage(new Uri(_source == null ? LocalData.DEFAULT_ICON_PATH : _source))
-           })
-        { }
-        public ChannelCustomImage(CloudFile _icon) : this( _icon.uri)
-        {   }
-    }
     public class StackChannel : StackPanel, ResizableUIElement
     {
         public long id;
@@ -40,7 +22,8 @@ namespace UIWigets
         public Label lastMessage;
 
         StackPanel metaPanel;
-        int IventNow = 0; StackPanel dataPanel;
+        StackPanel dataPanel;
+        int IventNow = 0;
 
         public bool isActive = false;
         public StackChannel
@@ -67,7 +50,7 @@ namespace UIWigets
             description = new Label()
             {
                 Content = _description,
-                FontSize = 10,
+                FontSize = 12,
                 FontFamily = new FontFamily("Comic Sans MS"),
                 Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255))
             };
@@ -102,7 +85,7 @@ namespace UIWigets
                     Width = 100
                 };
                 Children.Add(metaPanel);
-                metaPanel.Children.Add(icon);
+                metaPanel.Children.Add(icon.Icon);
                 Children.Add(dataPanel);
                 dataPanel.Children.Add(title);
                 dataPanel.Children.Add(lastMessage);
@@ -119,8 +102,8 @@ namespace UIWigets
                     StartPoint = new Point(0, 0.5),
                     EndPoint = new Point(1, 0.5)
                 };
-                Gradient.GradientStops.Add(new GradientStop(Color.FromRgb(30, 30, 30), 0.0));
-                Gradient.GradientStops.Add(new GradientStop(Color.FromRgb(0, 255, 243), 1));
+                Gradient.GradientStops.Add(new GradientStop(Color.FromRgb(0, 30, 30), 0.0));
+                Gradient.GradientStops.Add(new GradientStop(Color.FromRgb(0, 200, 255), 1));
             //============- SettingStackPanel -=============>
                 HorizontalAlignment = HorizontalAlignment.Center;
                 Margin = new Thickness(0, 0, 0, 0); //left, top, right, bottom
@@ -130,25 +113,71 @@ namespace UIWigets
                 Opacity = 0.6;
                 MouseEnter += SP_MouseEnter;
                 MouseLeave += SP_MouseLeave;
-                MouseLeftButtonDown += SP_MouseLeftButtonDown;
+                MouseLeftButtonDown += (sender, e) => SP_MouseLeftButtonDown(sender, null);
         }
 
-        private void SP_MouseLeftButtonDown(object sender, MouseEventArgs e)
+        private void SP_MouseLeftButtonDown(object sender, MouseEventArgs? e)
         {
-            //ChannelsPanel.Children.Clear();
-            //deselect all channels
-            /*
-            ChannelPanel.Background = new LinearGradientBrush()
+            ((MainWindow)System.Windows.Application.Current.MainWindow).MessagePanel.Children.Clear();
+
+            foreach(StackPanel channel in ((MainWindow)System.Windows.Application.Current.MainWindow).ChannelsPanel.Children)
             {
-                StartPoint = new Point(0, 0.5),
+                LinearGradientBrush Gradient = new LinearGradientBrush()
+                {
+                    StartPoint = new Point(0, 0.5),
                     EndPoint = new Point(1, 0.5)
+                };
+                Gradient.GradientStops.Add(new GradientStop(Color.FromRgb(0, 30, 30), 0.0));
+                Gradient.GradientStops.Add(new GradientStop(Color.FromRgb(0, 200, 255), 1));
+                channel.Background = Gradient;
+            }
+
+            LinearGradientBrush BG = new LinearGradientBrush(){
+                StartPoint = new Point(0, 0.5),
+                EndPoint = new Point(1, 0.5)
             };
-            Gradient.GradientStops.Add(new GradientStop(Color.FromRgb(150, 150, 150), 0.0));
-            Gradient.GradientStops.Add(new GradientStop(Color.FromRgb(0, 255, 243), 1));
-            */
-            //DataNamePanel = Channel.icon;
-            //MessagePanel_ChannelName.Text = Channel.Title;
+            BG.GradientStops.Add(new GradientStop(Color.FromRgb(0, 30, 30), 0.0));
+            BG.GradientStops.Add(new GradientStop(Color.FromRgb(0, 255, 200), 1));
+            Background = BG;
+            Opacity = 1;
+
+            ((MainWindow)System.Windows.Application.Current.MainWindow).MessagePanel_ChannelAvatar.Source = this.icon.Source;
+            ((MainWindow)System.Windows.Application.Current.MainWindow).MessagePanel_ChannelName.Content = this.title.Content;
             //request
+            List<StackMessage> messages = new List<StackMessage>();
+
+            messages.Add(
+                new StackMessage
+                (
+                    0,
+                    0,
+                    false,
+                    1708077886279210,
+                    MessageType.system,
+                    "----------< КАНАЛ СОЗДАН >----------",
+                    null,
+                    null,
+                    null
+                )
+            );
+            messages.Add(
+                new StackMessage
+                (
+                    1,
+                    5,
+                    false,
+                    1708077886279220,
+                    MessageType.text,
+                    "Первое сообщение для теста",
+                    null,
+                    null,
+                    null
+                )
+            );
+            foreach (StackMessage message in messages)
+            {
+                ((MainWindow)System.Windows.Application.Current.MainWindow).MessagePanel.Children.Add(message);
+            }
         }
 
         private async void SP_MouseEnter(object sender, MouseEventArgs e)

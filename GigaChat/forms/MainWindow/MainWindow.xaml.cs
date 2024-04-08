@@ -1,34 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Net.Http;
-using System.IO;
-using System.Text.Json;
-using UIWigets;
 
 namespace GigaChat {
     public partial class MainWindow : Window
     {
         float animationHideTime = 0.3f;
         HashSet<ResizableUIElement> widgets = new HashSet<ResizableUIElement>();
+        HashSet<ResizableUIElement> messages = new HashSet<ResizableUIElement>();
         uint MessageCreatePanelHeight = 75;
         double HideButtonMarginLeft;
 
         public MainWindow()
         {
             InitializeComponent();
+            Task.Run(() => WebSockets.Connect());
         }
+        
         private void OnWindowResize(object sender, SizeChangedEventArgs e)
         {
             /*  ВЕРХНИЙ СЛОЙ  */
@@ -73,8 +61,8 @@ namespace GigaChat {
                         CreateMessageBorder.Height = MessageCreatePanelHeight - 35;
                         CreateMessageBorder.Width = MessageCreatePanel.Width - CreateMessageBorder.Margin.Left - CreateMessageBorder.Margin.Right - CreateMessageBorder.Padding.Left - CreateMessageBorder.Padding.Right;
                         // панель сообщений
-                        DataMesPanel.Height = DataPanel.Height - DataNamePanel.Height - MessageCreatePanelHeight - 15;
-                        DataMesPanel.Width = DataPanel.Width - 10;
+                        MessagePanelScrollbar.Height = DataPanel.Height - DataNamePanel.Height - MessageCreatePanelHeight - 15;
+                        MessagePanelScrollbar.Width = DataPanel.Width;
                             //текстовая панель создания сообщения
                             MessageTextCreate.Height = MessageCreatePanel.Height - 9;
                             MessageTextCreate.Width = MessageCreatePanel.Width - 18;
@@ -153,7 +141,7 @@ namespace GigaChat {
             {
                 try
                 {
-                    DLBResponses.Success<Channel>? channelsResponse = await HTTPRequests.GetChannelsAsync();
+                    DLBResponses.Success<Channel>? channelsResponse = await HTTPChannelRequests.GetChannelsAsync();
                     if (channelsResponse == null) return;
 
                     List<StackChannel> channels = new List<StackChannel>();
@@ -192,11 +180,7 @@ namespace GigaChat {
                         "description",
                         true,
                         true,
-                        new CloudFile
-                        {
-                            id = 1,
-                            uri = LocalData.DEFAULT_ICON_PATH
-                        },
+                        null,
                         new ChannelLastMessage
                         {
                             id = 1,

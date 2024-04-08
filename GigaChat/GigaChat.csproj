@@ -37,6 +37,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Websocket.Client" Version="5.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +46,21 @@
     <Resource Include="forms\MainWindow\settings.png" />
     <Resource Include="forms\MainWindow\windowHide.png" />
     <Resource Include="forms\MainWindow\windowHigh.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

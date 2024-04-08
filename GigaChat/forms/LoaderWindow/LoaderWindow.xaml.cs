@@ -41,13 +41,17 @@ namespace GigaChat
             {
                 if(i == 60)
                 {
-                    HTTPRequests.UpdateAuthorizationData(LocalData.CLIENT_ID, LocalData.CLIENT_SECRET, LocalData.CLIENT_KEY);
+                    HTTPChannelRequests.UpdateAuthorizationData(LocalData.CLIENT_ID, LocalData.CLIENT_SECRET, LocalData.CLIENT_KEY);
+                }
+                if(i == 80)
+                {
+                    await Task.Run(() => ReusableTokenRequest.GetReusableToken());
                 }
                 loaderBar.Value = i;
                 await Task.Delay(10);
             }
-            MainWindow MainForm = new MainWindow();
-            MainForm.Show();
+            Application.Current.MainWindow = new MainWindow();
+            Application.Current.MainWindow.Show();
             this.Visibility = Visibility.Hidden;
         }
     }
