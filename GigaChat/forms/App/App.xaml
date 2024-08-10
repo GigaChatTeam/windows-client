@@ -1,0 +1,9 @@
+﻿<Application x:Class="GigaChat.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:GigaChat"
+             StartupUri="D:\GIT\windows-client\GigaChat\forms\LoaderWindow\LoaderWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

@@ -396,3 +396,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/WpfApp1/LocalData.cs
+/GigaChat/LocalData.cs
+/GigaChat/data/LocalData.cs

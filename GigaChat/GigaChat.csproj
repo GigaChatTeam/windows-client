@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>baseLogo.ico</ApplicationIcon>
+    <StartupObject>GigaChat.LoaderWindow</StartupObject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove=".png" />
+    <None Remove="baseLogo.jpg" />
+    <None Remove="exit.png" />
+    <None Remove="forms\MainWindow\BaseLogo.jpg" />
+    <None Remove="forms\MainWindow\exit.png" />
+    <None Remove="forms\MainWindow\settings.png" />
+    <None Remove="forms\MainWindow\windowHide.png" />
+    <None Remove="forms\MainWindow\windowHigh.png" />
+    <None Remove="settings.png" />
+    <None Remove="windowHigh.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="baseLogo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Websocket.Client" Version="5.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="forms\MainWindow\BaseLogo.jpg" />
+    <Resource Include="forms\MainWindow\exit.png" />
+    <Resource Include="forms\MainWindow\settings.png" />
+    <Resource Include="forms\MainWindow\windowHide.png" />
+    <Resource Include="forms\MainWindow\windowHigh.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>
